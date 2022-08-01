@@ -1,3 +1,3 @@
 # NGRX Study
 
- A project to study NGRX in Angular.
+A project to study Angular.
