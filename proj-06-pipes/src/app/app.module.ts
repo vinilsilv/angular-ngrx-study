@@ -6,17 +6,21 @@ import { AppComponent } from './app.component';
 import { PipesExampleComponent } from './pipes-example/pipes-example.component';
 import { CamelCasePipe } from './camel-case.pipe';
 import { SettingsService } from './settings.service';
+import { ArrayFilterPipe } from './array-filter.pipe';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     PipesExampleComponent,
-    CamelCasePipe
+    CamelCasePipe,
+    ArrayFilterPipe
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [
     // {

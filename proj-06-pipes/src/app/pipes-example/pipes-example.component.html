@@ -7,3 +7,14 @@
 <br />
 
 <p>Book: {{ book | json }}</p>
+
+<input type="text" [(ngModel)]="filter" />
+<br />
+<input type="text" #newValue />
+<button (click)="addCourse(newValue.value)">Add</button>
+
+<ul>
+  <li *ngFor="let myBook of books | arrayFilter: filter">
+    {{ myBook }}
+  </li>
+</ul>
