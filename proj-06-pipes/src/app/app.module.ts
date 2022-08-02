@@ -8,6 +8,7 @@ import { CamelCasePipe } from './camel-case.pipe';
 import { SettingsService } from './settings.service';
 import { ArrayFilterPipe } from './array-filter.pipe';
 import { FormsModule } from '@angular/forms';
+import { ImpureArrayFilterPipe } from './impure-array-filter.pipe';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { FormsModule } from '@angular/forms';
     AppComponent,
     PipesExampleComponent,
     CamelCasePipe,
-    ArrayFilterPipe
+    ArrayFilterPipe,
+    ImpureArrayFilterPipe
   ],
   imports: [
     BrowserModule,

@@ -13,8 +13,24 @@
 <input type="text" #newValue />
 <button (click)="addCourse(newValue.value)">Add</button>
 
+<h5>"Pure" pipe</h5>
 <ul>
   <li *ngFor="let myBook of books | arrayFilter: filter">
+    {{ myBook }}
+  </li>
+</ul>
+
+<h5>"Impure" pipe</h5>
+<ul>
+  <li *ngFor="let myBook of books | impureArrayFilter: filter">
+    {{ myBook }}
+  </li>
+</ul>
+
+
+<h5>Correct way to filter data</h5>
+<ul>
+  <li *ngFor="let myBook of getCourses()">
     {{ myBook }}
   </li>
 </ul>
