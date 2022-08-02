@@ -1,6 +1,6 @@
 <h5>Pipes Example</h5>
 
-<p>Title: {{ book.title | uppercase | lowercase }}</p>
+<p>Title: {{ book.title | uppercase | lowercase | camelCase }}</p>
 <p>Rating: {{ book.rating | number: "1.1-1" }}</p>
 <p>Price: {{ book.price | currency: "BRL":true }}</p>
 <p>Release Date: {{ book.releaseDate | date: "dd-MM-yyyy" }}</p>
