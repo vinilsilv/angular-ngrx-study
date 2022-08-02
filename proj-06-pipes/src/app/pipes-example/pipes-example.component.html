@@ -27,10 +27,13 @@
   </li>
 </ul>
 
-
 <h5>Correct way to filter data</h5>
 <ul>
   <li *ngFor="let myBook of getCourses()">
     {{ myBook }}
   </li>
 </ul>
+
+<p>{{ asyncValue | async }}</p>
+
+<p>{{ asyncValue2 | async }}</p>
