@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CursosService } from 'src/app/cursos.service';
 import { Curso } from '../curso';
 
@@ -9,16 +10,17 @@ import { Curso } from '../curso';
   preserveWhitespaces: true,
 })
 export class CursosListaComponent implements OnInit {
-  cursos!: Curso[];
+  // cursos!: Curso[];
+
+  cursos$!: Observable<Curso[]>;
 
   constructor(private cursosService: CursosService) {}
 
   ngOnInit(): void {
-    this.cursosService.list().subscribe({
-      next: (res) => {
-        this.cursos = res,
-        console.log(this.cursos)
-      },
-    });
+    // this.cursosService.list().subscribe({
+    //   next: (res) => {(this.cursos = res), console.log(this.cursos);},
+    // });
+
+    this.cursos$ = this.cursosService.list();
   }
 }
