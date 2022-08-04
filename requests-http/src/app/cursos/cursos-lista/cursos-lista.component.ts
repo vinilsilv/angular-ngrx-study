@@ -43,13 +43,13 @@ export class CursosListaComponent implements OnInit {
       })
     );
 
-    this.cursosService
-      .list()
-      .pipe(catchError(() => EMPTY))
-      .subscribe({
-        next: (dados) => console.log(dados),
-        error: () => console.log('err')
-      });
+    // this.cursosService
+    //   .list()
+    //   .pipe(catchError(() => EMPTY))
+    //   .subscribe({
+    //     next: (dados) => console.log(dados),
+    //     error: () => console.log('err')
+    //   });
   }
 
   handleError(){
