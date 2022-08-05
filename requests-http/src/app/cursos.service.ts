@@ -22,9 +22,20 @@ export class CursosService {
     return this.http.get<Curso>(`${this.apiUrl}/${id}`).pipe(take(1))
   }
 
-  create(curso: Curso) {
+  private create(curso: Curso) {
     return this.http.post<Curso>(this.apiUrl, curso).pipe(
       take(1)
     )
+  }
+
+  private update(curso: Curso) {
+    return this.http.put<Curso>(`${this.apiUrl}/${curso.id}`, curso).pipe(take(1))
+  }
+
+  save(curso: Curso) {
+    if (curso.id) {
+      return this.update(curso);
+    }
+    return this.create(curso)
   }
 }

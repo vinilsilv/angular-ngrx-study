@@ -75,19 +75,47 @@ export class CursosFormComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.form.valid) {
-      this.cursosService.create(this.form.value).subscribe({
+      let msgSuccess: string = 'Curso criado com sucesso!';
+      let msgError: string = 'Erro ao criar curso, tente novamente';
+      if (this.form.value.id) {
+        msgSuccess = 'Curso atualizado com sucesso!';
+        msgError = 'Erro ao atualizar curso, tente novamente';
+      }
+
+      this.cursosService.save(this.form.value).subscribe({
         next: () => {
           this.submitted = false;
-          this.alertModalService.showAlertSuccess('Enviado com sucesso');
+          this.alertModalService.showAlertSuccess(msgSuccess);
           this.location.back();
         },
         error: () => {
           this.submitted = false;
-          this.alertModalService.showAlertDanger(
-            'Erro ao criar um novo curso, tente novamente.'
-          );
+          this.alertModalService.showAlertDanger(msgError);
         },
       });
+
+      // if (this.form.value.id) {
+      //   this.cursosService.update(this.form.value).subscribe({
+      //     next: () => {
+      //       console.log('done');
+      //     },
+      //     error: () => {},
+      //   });
+      // } else {
+      //   this.cursosService.create(this.form.value).subscribe({
+      //     next: () => {
+      //       this.submitted = false;
+      //       this.alertModalService.showAlertSuccess('Enviado com sucesso');
+      //       this.location.back();
+      //     },
+      //     error: () => {
+      //       this.submitted = false;
+      //       this.alertModalService.showAlertDanger(
+      //         'Erro ao criar um novo curso, tente novamente.'
+      //       );
+      //     },
+      //   });
+      // }
     }
   }
 
