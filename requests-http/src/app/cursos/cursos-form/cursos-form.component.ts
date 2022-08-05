@@ -37,19 +37,21 @@ export class CursosFormComponent implements OnInit {
     //   },
     // });
 
-    this.route.params
-      .pipe(
-        map((params: any) => params['id']),
-        switchMap((id: any) => this.cursosService.loadById(id))
-      )
-      .subscribe({
-        next: curso => this.updateForm(curso)
-      });
+    // this.route.params
+    //   .pipe(
+    //     map((params: any) => params['id']),
+    //     switchMap((id: any) => this.cursosService.loadById(id))
+    //   )
+    //   .subscribe({
+    //     next: curso => this.updateForm(curso)
+    //   });
+
+    const curso = this.route.snapshot.data['curso'];
 
     this.form = this.fb.group({
-      id: [null],
+      id: [curso.id],
       nome: [
-        null,
+        curso.nome,
         [
           Validators.required,
           Validators.minLength(3),
@@ -59,12 +61,12 @@ export class CursosFormComponent implements OnInit {
     });
   }
 
-  updateForm(curso: Curso) {
-    this.form.patchValue({
-      id: curso.id,
-      nome: curso.nome,
-    });
-  }
+  // updateForm(curso: Curso) {
+  //   this.form.patchValue({
+  //     id: curso.id,
+  //     nome: curso.nome,
+  //   });
+  // }
 
   hasError(field: string) {
     return this.form.get(field)?.errors;
