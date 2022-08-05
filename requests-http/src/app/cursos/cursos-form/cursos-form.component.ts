@@ -1,8 +1,11 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { map, switchMap } from 'rxjs/operators';
 import { CursosService } from 'src/app/cursos.service';
 import { AlertModalService } from 'src/app/shared/alert-modal.service';
+import { Curso } from '../curso';
 
 @Component({
   selector: 'app-cursos-form',
@@ -17,11 +20,34 @@ export class CursosFormComponent implements OnInit {
     private fb: FormBuilder,
     private cursosService: CursosService,
     private alertModalService: AlertModalService,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    // this.route.params.subscribe({
+    //   next: (params: any) => {
+    //     const id = params['id'];
+    //     const curso$ = this.cursosService.loadById(id);
+    //     curso$.subscribe({
+    //       next: (curso) => {
+    //         this.updateForm(curso);
+    //       },
+    //     });
+    //   },
+    // });
+
+    this.route.params
+      .pipe(
+        map((params: any) => params['id']),
+        switchMap((id: any) => this.cursosService.loadById(id))
+      )
+      .subscribe({
+        next: curso => this.updateForm(curso)
+      });
+
     this.form = this.fb.group({
+      id: [null],
       nome: [
         null,
         [
@@ -30,6 +56,13 @@ export class CursosFormComponent implements OnInit {
           Validators.maxLength(250),
         ],
       ],
+    });
+  }
+
+  updateForm(curso: Curso) {
+    this.form.patchValue({
+      id: curso.id,
+      nome: curso.nome,
     });
   }
 
@@ -48,7 +81,9 @@ export class CursosFormComponent implements OnInit {
         },
         error: () => {
           this.submitted = false;
-          this.alertModalService.showAlertDanger('Erro ao criar um novo curso, tente novamente.')
+          this.alertModalService.showAlertDanger(
+            'Erro ao criar um novo curso, tente novamente.'
+          );
         },
       });
     }

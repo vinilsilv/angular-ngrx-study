@@ -1,4 +1,6 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, EMPTY, Observable, of, Subject } from 'rxjs';
 import { CursosService } from 'src/app/cursos.service';
@@ -23,7 +25,9 @@ export class CursosListaComponent implements OnInit {
   constructor(
     private cursosService: CursosService,
     // private modalService: BsModalService,
-    private alertService: AlertModalService
+    private alertService: AlertModalService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -32,13 +36,15 @@ export class CursosListaComponent implements OnInit {
     // });
 
     this.onRefresh();
+
+    
   }
 
   onRefresh() {
     this.cursos$ = this.cursosService.list().pipe(
       catchError((err) => {
         this.error$.next(true);
-        this.handleError()
+        this.handleError();
         return EMPTY;
       })
     );
@@ -52,10 +58,14 @@ export class CursosListaComponent implements OnInit {
     //   });
   }
 
-  handleError(){
+  handleError() {
     this.alertService.showAlertDanger('Erro ao carregar cursos.');
-  //   this.bsModalRef = this.modalService.show(AlertModalComponent);
-  //   this.bsModalRef.content.type = 'danger';
-  //   this.bsModalRef.content.message = 'Erro ao carregar cursos.';
+    //   this.bsModalRef = this.modalService.show(AlertModalComponent);
+    //   this.bsModalRef.content.type = 'danger';
+    //   this.bsModalRef.content.message = 'Erro ao carregar cursos.';
+  }
+
+  onEdit(id: number) {
+    this.router.navigate(['editar', id], { relativeTo: this.route });
   }
 }
