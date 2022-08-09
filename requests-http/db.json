@@ -1,24 +1,8 @@
 {
   "cursos": [
     {
-      "id": 1,
-      "nome": "tes"
-    },
-    {
-      "id": 2,
-      "nome": "JSsddd"
-    },
-    {
-      "nome": "JavaScript",
-      "id": 3
-    },
-    {
       "id": 4,
       "nome": "Test"
-    },
-    {
-      "id": 5,
-      "nome": "novotest"
     },
     {
       "id": 6,

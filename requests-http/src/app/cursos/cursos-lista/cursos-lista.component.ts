@@ -1,11 +1,9 @@
-import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, EMPTY, Observable, of, Subject } from 'rxjs';
 import { CursosService } from 'src/app/cursos.service';
 import { AlertModalService } from 'src/app/shared/alert-modal.service';
-import { AlertModalComponent } from 'src/app/shared/alert-modal/alert-modal.component';
 import { Curso } from '../curso';
 
 @Component({
@@ -19,15 +17,20 @@ export class CursosListaComponent implements OnInit {
 
   // bsModalRef?: BsModalRef;
 
+  deleteModalRef!: BsModalRef;
+  @ViewChild('deleteModal') deleteModal: any;
+
   cursos$!: Observable<Curso[]>;
   error$ = new Subject<boolean>();
 
+  cursoSelecionado!: Curso;
+
   constructor(
     private cursosService: CursosService,
-    // private modalService: BsModalService,
+    private modalService: BsModalService,
     private alertService: AlertModalService,
     private router: Router,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -36,8 +39,6 @@ export class CursosListaComponent implements OnInit {
     // });
 
     this.onRefresh();
-
-    
   }
 
   onRefresh() {
@@ -67,5 +68,30 @@ export class CursosListaComponent implements OnInit {
 
   onEdit(id: number) {
     this.router.navigate(['editar', id], { relativeTo: this.route });
+  }
+
+  onDelete(curso: Curso) {
+    this.cursoSelecionado = curso;
+    this.deleteModalRef = this.modalService.show(this.deleteModal, {
+      class: 'modal-sm',
+    });
+  }
+
+  onConfirmDelete() {
+    this.cursosService.remove(this.cursoSelecionado.id).subscribe({
+      next: () => {
+        this.onRefresh();
+      },
+      error: () =>
+        this.alertService.showAlertDanger(
+          'Erro ao remover curso. Tente novamente mais tarde'
+        ),
+    });
+
+    this.deleteModalRef.hide();
+  }
+
+  onDeclineDelete() {
+    this.deleteModalRef.hide();
   }
 }

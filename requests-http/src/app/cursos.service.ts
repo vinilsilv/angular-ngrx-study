@@ -38,4 +38,8 @@ export class CursosService {
     }
     return this.create(curso)
   }
+
+  remove(id: number){
+    return this.http.delete(`${this.apiUrl}/${id}`).pipe(take(1))
+  }
 }
