@@ -1,3 +1,3 @@
 # Angular Study
 
-A collection of projects to study Angular.
+A series of projects to study Angular.
