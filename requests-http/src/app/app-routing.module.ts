@@ -5,16 +5,21 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'cursos',
+    redirectTo: 'upload',
   },
   {
     path: 'cursos',
     loadChildren: () => import('./cursos/cursos.module').then((x => x.CursosModule))
   },
   {
+    path: 'upload',
+    loadChildren: () => import('./upload-file/upload-file.module').then((x => x.UploadFileModule))
+  },
+  {
     path: 'rxjs-poc',
     loadChildren: () => import('./unsubscribe-rxjs/unsubscribe-rxjs.module').then((x => x.UnsubscribeRxjsModule))
-  } 
+  }
+
 ];
 
 @NgModule({
