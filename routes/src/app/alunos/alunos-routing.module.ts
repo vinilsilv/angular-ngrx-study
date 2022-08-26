@@ -5,7 +5,7 @@ import { AlunoFormularioComponent } from "./aluno-formulario/aluno-formulario.co
 import { AlunosComponent } from "./alunos.component";
 
 const alunosRoutes = [
-    { path: 'alunos', component: AlunosComponent, children: [
+    { path: '', component: AlunosComponent, children: [
         { path: 'novo', component: AlunoFormularioComponent },
         { path: ':id', component: AlunoDetalheComponent },
         { path: ':id/editar', component: AlunoFormularioComponent },
