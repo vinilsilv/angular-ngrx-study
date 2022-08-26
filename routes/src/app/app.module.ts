@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterializeModule } from 'angular2-materialize';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { AuthService } from './login/auth.service';
 // import { CursosModule } from './cursos/cursos.module';
 // import { AlunosComponent } from './alunos/alunos.component';
 // import { AlunosModule } from './alunos/alunos.module';
@@ -29,10 +31,12 @@ import { LoginComponent } from './login/login.component';
     MaterializeModule,
     // CursosModule,
     // AlunosModule,
-    AppRoutingModule
-    // routing
+    AppRoutingModule,
+    // routing,
+    FormsModule
   ],
   // providers: [CursosService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [AuthService],
 })
-export class AppModule { }
+export class AppModule {}
