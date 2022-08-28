@@ -6,15 +6,18 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AlunoFormularioComponent } from '../alunos/aluno-formulario/aluno-formulario.component';
+import { IFromCanDeactivate } from './form-candeactivate';
 
 @Injectable()
 export class AlunosDeactivate
-  implements CanDeactivate<AlunoFormularioComponent>
+  implements CanDeactivate<IFromCanDeactivate>
 {
   canDeactivate(
-    component: AlunoFormularioComponent
+    component: IFromCanDeactivate
   ): Observable<boolean> | Promise<boolean> | boolean {
 
-    return component.podeMudarRota()
+    // return component.podeMudarRota()
+
+    return component.podeDesativar()
   }
 }
