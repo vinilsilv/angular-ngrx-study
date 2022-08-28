@@ -11,6 +11,7 @@ import { AlunosService } from '../alunos.service';
 export class AlunoFormularioComponent implements OnInit {
   aluno: any;
   inscricao!: Subscription;
+  private formMudou: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,5 +32,19 @@ export class AlunoFormularioComponent implements OnInit {
 
   ngOnDestroy() {
     this.inscricao.unsubscribe()
+  }
+
+  onInput() {
+    this.formMudou = true
+  }
+
+  podeMudarRota() {
+    if (this.formMudou) {
+      if (confirm('Tem certeza que deseja sair dessa página?') == false) {
+        return false
+      }
+    }
+
+    return true;
   }
 }
