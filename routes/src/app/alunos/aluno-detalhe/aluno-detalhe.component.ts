@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AlunosGuard } from 'src/app/guards/alunos.guard';
 import { AlunosService } from '../alunos.service';
 
 @Component({
@@ -11,11 +12,13 @@ import { AlunosService } from '../alunos.service';
 export class AlunoDetalheComponent implements OnInit, OnDestroy {
   aluno: any;
   inscricao!: Subscription;
+  canEdit?: any;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private alunosService: AlunosService
+    private alunosService: AlunosService,
+    private alunosGuard: AlunosGuard
   ) {}
 
   ngOnInit(): void {
