@@ -15,7 +15,8 @@ const appRoutes: Routes = [
     loadChildren: () =>
       import('./cursos/cursos.module').then((m) => m.CursosModule),
     canActivate: [AuthGuard],
-    canActivateChild: [CursosGuard]
+    canActivateChild: [CursosGuard],
+    canLoad: [AuthGuard]
   },
   {
     path: 'alunos',
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
       import('./alunos/alunos.module').then((m) => m.AlunosModule),
     canActivate: [AuthGuard],
     // canActivateChild: [AlunosGuard]
+    canLoad: [AuthGuard]
   },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
