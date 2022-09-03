@@ -8,8 +8,8 @@ import { map } from 'rxjs/operators';
 })
 export class TemplateFormComponent implements OnInit {
   usuario: any = {
-    nome: null,
-    email: null,
+    nome: 'Nome',
+    email: 'email@email.com',
   };
 
   constructor(private http: HttpClient) {}
@@ -17,9 +17,6 @@ export class TemplateFormComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(form: any) {
-    console.log(form.form);
-
-    console.log(this.usuario);
   }
 
   verificaValidTouched(campo: any) {
@@ -33,7 +30,7 @@ export class TemplateFormComponent implements OnInit {
     };
   }
 
-  consultaCEP(cep: any) {
+  consultaCEP(cep: any, form: any) {
     cep = cep.replace(/\D/g, '');
 
     if (cep != '') {
@@ -42,8 +39,21 @@ export class TemplateFormComponent implements OnInit {
       if (validaCep.test(cep)) {
         this.http
           .get(`https://viacep.com.br/ws/${cep}/json/`)
-          .subscribe({ next: (dados) => console.log(dados) });
+          .subscribe({ next: (dados) => this.populaDadosForm(dados, form) });
       }
     }
+  }
+
+  populaDadosForm(dados: any, form: any) {
+    form.patchValue({
+      endereco: {
+        rua: dados.logradouro,
+        cep: dados.cep,
+        complemento: dados.complemento,
+        bairro: dados.bairro,
+        cidade: dados.localidade,
+        estado: dados.uf
+      }
+    })
   }
 }
