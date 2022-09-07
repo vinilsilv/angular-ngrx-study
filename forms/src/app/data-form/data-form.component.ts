@@ -1,6 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-data-form',
@@ -19,12 +24,15 @@ export class DataFormComponent implements OnInit {
     // })
 
     this.formulario = this.formBuilder.group({
-      nome: ['V'],
-      email: [null],
+      nome: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
     });
   }
 
   onSubmit() {
+    if (this.formulario.invalid) {
+      return;
+    }
     console.log(this.formulario);
 
     this.http
@@ -39,6 +47,6 @@ export class DataFormComponent implements OnInit {
   }
 
   resetar() {
-    this.formulario.reset()
+    this.formulario.reset();
   }
 }
