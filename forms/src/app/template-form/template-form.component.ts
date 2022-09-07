@@ -19,10 +19,12 @@ export class TemplateFormComponent implements OnInit {
   onSubmit(form: any) {
     console.log(form.form);
 
-    this.http.post('https://httpbin.org/post', JSON.stringify(form.value)).subscribe({
-      next: res => console.log('Success', res),
-      error: res => console.log('Failure', res),
-    })
+    this.http
+      .post('https://httpbin.org/post', JSON.stringify(form.value))
+      .subscribe({
+        next: (res) => console.log('Success', res),
+        error: (res) => console.log('Failure', res),
+      });
   }
 
   verificaValidTouched(campo: any) {
@@ -43,9 +45,12 @@ export class TemplateFormComponent implements OnInit {
       let validaCep = /^[0-9]{8}$/;
 
       if (validaCep.test(cep)) {
-        this.http
-          .get(`https://viacep.com.br/ws/${cep}/json/`)
-          .subscribe({ next: (dados) => this.populaDadosForm(dados, form) });
+        this.http.get(`https://viacep.com.br/ws/${cep}/json/`).subscribe({
+          next: (dados) => {
+            this.populaDadosForm(dados, form);
+            form.form.reset();
+          },
+        });
       }
     }
   }
@@ -58,8 +63,8 @@ export class TemplateFormComponent implements OnInit {
         complemento: dados.complemento,
         bairro: dados.bairro,
         cidade: dados.localidade,
-        estado: dados.uf
-      }
-    })
+        estado: dados.uf,
+      },
+    });
   }
 }
