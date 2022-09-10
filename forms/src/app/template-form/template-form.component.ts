@@ -22,7 +22,10 @@ export class TemplateFormComponent implements OnInit {
     this.http
       .post('https://httpbin.org/post', JSON.stringify(form.value))
       .subscribe({
-        next: (res) => console.log('Success', res),
+        next: (res) => {
+          console.log('Success', res);
+          form.form.reset();
+        },
         error: (res) => console.log('Failure', res),
       });
   }
@@ -48,7 +51,6 @@ export class TemplateFormComponent implements OnInit {
         this.http.get(`https://viacep.com.br/ws/${cep}/json/`).subscribe({
           next: (dados) => {
             this.populaDadosForm(dados, form);
-            form.form.reset();
           },
         });
       }
