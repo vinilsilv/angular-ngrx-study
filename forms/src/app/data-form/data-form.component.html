@@ -119,8 +119,22 @@
 
     </div>
 
+    <div class="form-group">
+        <div class="col-md-3" [ngClass]="aplicaCssErro('cargo')">
+            <div class="col-sm-12 px-0">
+                <label for="cargo" class="control-label">Cargo</label>
+            </div>
+            <div class="col-sm-12 px-0">
+                <select class="form-control" id="cargo" formControlName="cargo" [compareWith]="compararCargos">
+                    <option [ngValue]="cargo" *ngFor="let cargo of cargos">{{cargo.desc}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
     <button type="submit" class="btn btn-primary">Submit</button>
     <button type="submit" class="btn btn-secondary" (click)="resetar()">Cancelar</button>
+    <button type="submit" class="btn btn-secondary" (click)="setarCargo()">Cargo</button>
 
     <app-form-debug [form]="formulario"></app-form-debug>
 </form>
