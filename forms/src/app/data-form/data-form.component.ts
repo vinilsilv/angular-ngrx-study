@@ -21,6 +21,7 @@ export class DataFormComponent implements OnInit {
   estados!: Observable<any>;
   cargos: any[] = [];
   tecnologias: any[] = [];
+  newsletterOp: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,9 +33,11 @@ export class DataFormComponent implements OnInit {
   ngOnInit(): void {
     this.estados = this.dropDownService.getEstadosBr();
 
-    this.cargos = this.dropDownService.getCargos()
+    this.cargos = this.dropDownService.getCargos();
 
-    this.tecnologias = this.dropDownService.getTecnologias()
+    this.tecnologias = this.dropDownService.getTecnologias();
+
+    this.newsletterOp = this.dropDownService.getNewsletter();
 
     // this.formulario = new FormGroup({
     //   nome: new FormControl('V'),
@@ -54,7 +57,8 @@ export class DataFormComponent implements OnInit {
         estado: [null, Validators.required],
       }),
       cargo: [null],
-      tecnologias: [null]
+      tecnologias: [null],
+      newsletter: [true],
     });
   }
 
@@ -137,15 +141,17 @@ export class DataFormComponent implements OnInit {
   }
 
   setarCargo() {
-    const cargo = { nome: "Dev", nivel: "Pleno", desc: "Dev Pl" };
+    const cargo = { nome: 'Dev', nivel: 'Pleno', desc: 'Dev Pl' };
     this.formulario.get('cargo')?.setValue(cargo);
   }
 
   compararCargos(obj1: any, obj2: any) {
-    return obj1 && obj2 ? (obj1.nome === obj2.nome && obj1.nivel === obj2.nivel) : obj1 === obj2 
+    return obj1 && obj2
+      ? obj1.nome === obj2.nome && obj1.nivel === obj2.nivel
+      : obj1 === obj2;
   }
 
-  setarTecnologias(){
-    this.formulario.get('tecnologias')?.setValue(['Java', 'JavaScript'])
+  setarTecnologias() {
+    this.formulario.get('tecnologias')?.setValue(['Java', 'JavaScript']);
   }
 }

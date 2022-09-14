@@ -28,4 +28,11 @@ export class DropdownService {
       { nome: 'PHP', desc: 'PHP' }
     ]
   }
+
+  getNewsletter(){
+    return [
+      { valor: true, desc: 'Sim' },
+      { valor: false, desc: 'Nao' }
+    ]
+  }
 }
