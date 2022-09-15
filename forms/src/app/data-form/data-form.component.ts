@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -22,6 +23,12 @@ export class DataFormComponent implements OnInit {
   cargos: any[] = [];
   tecnologias: any[] = [];
   newsletterOp: any[] = [];
+
+  frameworks: string[] = ['Angular', 'React', 'Vue', 'Sencha']
+
+  get FrameworksControls(){
+    return this.formulario.get('frameworks') as FormArray
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -59,11 +66,30 @@ export class DataFormComponent implements OnInit {
       cargo: [null],
       tecnologias: [null],
       newsletter: [true],
-      termos: [null, Validators.pattern('true')]
+      termos: [null, Validators.pattern('true')],
+      frameworks: this.buildFrameworks()
     });
+
+    console.log(this.FrameworksControls.controls)
+  }
+
+  buildFrameworks(){
+    const values = this.frameworks.map(() => new FormControl(false));
+    return this.formBuilder.array(values)
   }
 
   onSubmit() {
+
+    
+    let valueSubmit = Object.assign({}, this.formulario.value);
+    
+    valueSubmit = Object.assign(valueSubmit, {
+      frameworks: valueSubmit.frameworks
+      .map((v: boolean, i:any) => v ? this.frameworks[i] : null)
+      .filter((v: string) => v !== null)
+    })
+    console.log(valueSubmit)
+
     if (this.formulario.invalid) {
       this.verificaValidacoesForm(this.formulario);
 
@@ -71,7 +97,7 @@ export class DataFormComponent implements OnInit {
     }
 
     this.http
-      .post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
+      .post('https://httpbin.org/post', JSON.stringify(valueSubmit))
       .subscribe({
         next: (res) => {
           console.log('Success', res);

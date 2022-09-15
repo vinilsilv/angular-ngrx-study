@@ -165,10 +165,20 @@
                 <label class="checkbox-inline">
                     <input type="checkbox" formControlName="termos">Aceito os termos.
                 </label>
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('termos')!"
+                    msgErro="Por favor, aceite os termos.">
+                </app-campo-control-erro>
             </div>
-            <app-campo-control-erro [mostrarErro]="verificaValidTouched('termos')!"
-                msgErro="Por favor, aceite os termos.">
-            </app-campo-control-erro>
+        </div>
+        <div class="col-md-3" [ngClass]="aplicaCssErro('frameworks')">
+            <label for="frameworks">Frameworks</label>
+            <div id="frameworks" class="row">
+                <div class="checkbox" class="col-sm-4" *ngFor="let framework of FrameworksControls.controls; let i = index" formArrayName="frameworks">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" [formControlName]="i"> {{frameworks[i]}}
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
 
