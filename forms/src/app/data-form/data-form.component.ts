@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { EstadoBr } from '../shared/models/estado-br';
+import { FormValidations } from '../shared/form-validations';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { DropdownService } from '../shared/services/dropdown.service';
 
@@ -72,10 +72,10 @@ export class DataFormComponent implements OnInit {
 
     console.log(this.FrameworksControls.controls)
   }
-
-  buildFrameworks(){
+  
+  buildFrameworks(): any {
     const values = this.frameworks.map(() => new FormControl(false));
-    return this.formBuilder.array(values)
+    return this.formBuilder.array(values, FormValidations.requiredMinCheckbox())
   }
 
   onSubmit() {

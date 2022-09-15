@@ -170,7 +170,7 @@
                 </app-campo-control-erro>
             </div>
         </div>
-        <div class="col-md-3" [ngClass]="aplicaCssErro('frameworks')">
+        <div class="col-md-4" [ngClass]="aplicaCssErro('frameworks')">
             <label for="frameworks">Frameworks</label>
             <div id="frameworks" class="row">
                 <div class="checkbox" class="col-sm-4" *ngFor="let framework of FrameworksControls.controls; let i = index" formArrayName="frameworks">
@@ -178,6 +178,9 @@
                         <input type="checkbox" [formControlName]="i"> {{frameworks[i]}}
                     </label>
                 </div>
+                <app-campo-control-erro [mostrarErro]="!formulario.get('frameworks')!.valid"
+                    msgErro="Selecione 1 opção.">
+                </app-campo-control-erro>
             </div>
         </div>
     </div>
