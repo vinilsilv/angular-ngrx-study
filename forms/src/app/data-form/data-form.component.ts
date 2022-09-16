@@ -55,7 +55,7 @@ export class DataFormComponent implements OnInit {
       nome: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       endereco: this.formBuilder.group({
-        cep: [null, Validators.required],
+        cep: [null, [Validators.required, FormValidations.cepValidator]],
         numero: [null, Validators.required],
         complemento: [null],
         rua: [null, Validators.required],
@@ -79,7 +79,7 @@ export class DataFormComponent implements OnInit {
   }
 
   onSubmit() {
-
+    console.log(this.formulario)
     
     let valueSubmit = Object.assign({}, this.formulario.value);
     
@@ -141,6 +141,13 @@ export class DataFormComponent implements OnInit {
     if (campoEmail!.errors) {
       return campoEmail!.errors['email'] && campoEmail!.touched;
     }
+  }
+
+  verificaRequired(campo: string) {
+    return (
+      !this.formulario.get(campo)?.hasError('reuired') &&
+      (this.formulario.get(campo)?.touched || this.formulario.get(campo)?.dirty)
+    );
   }
 
   consultaCEP() {
