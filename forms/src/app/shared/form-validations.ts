@@ -56,4 +56,14 @@ export class FormValidations {
     }
     return validator;
   }
+
+  static getErrorMessage(fieldName: string, validatorName: string, validatorValue?: any ) {
+    const config: any = {
+      'required': `${fieldName} é obrigatório.`,
+      'invalid': `${fieldName} é inválido.`,
+      'minlength': `${fieldName} precisa ter no mínimo ${validatorValue.requiredLength} caracteres.`
+    };
+
+    return config[validatorName];
+  }
 }
