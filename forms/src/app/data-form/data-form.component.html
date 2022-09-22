@@ -50,7 +50,7 @@
                     <label for="cep" class="control-label">CEP</label>
                 </div>
                 <div class="col-sm-12 px-0">
-                    <input type="text" class="form-control" id="cep" formControlName="cep" (blur)="consultaCEP()">
+                    <input type="text" class="form-control" id="cep" formControlName="cep">
 
                     <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.cep')!"
                         msgErro="CEP é obrigatório">

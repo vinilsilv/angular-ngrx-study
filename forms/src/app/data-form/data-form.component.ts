@@ -7,7 +7,14 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { map, Observable } from 'rxjs';
+import {
+  distinctUntilChanged,
+  EMPTY,
+  map,
+  Observable,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { FormValidations } from '../shared/form-validations';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { DropdownService } from '../shared/services/dropdown.service';
@@ -25,10 +32,10 @@ export class DataFormComponent implements OnInit {
   tecnologias: any[] = [];
   newsletterOp: any[] = [];
 
-  frameworks: string[] = ['Angular', 'React', 'Vue', 'Sencha']
+  frameworks: string[] = ['Angular', 'React', 'Vue', 'Sencha'];
 
-  get FrameworksControls(){
-    return this.formulario.get('frameworks') as FormArray
+  get FrameworksControls() {
+    return this.formulario.get('frameworks') as FormArray;
   }
 
   constructor(
@@ -40,7 +47,6 @@ export class DataFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     // this.verificaEmailService.verificarEmail('email2@email.com').subscribe()
 
     this.estados = this.dropDownService.getEstadosBr();
@@ -58,7 +64,11 @@ export class DataFormComponent implements OnInit {
 
     this.formulario = this.formBuilder.group({
       nome: [null, [Validators.required, Validators.minLength(3)]],
-      email: [null, [Validators.required, Validators.email], [this.validarEmail.bind(this)]],
+      email: [
+        null,
+        [Validators.required, Validators.email],
+        [this.validarEmail.bind(this)],
+      ],
       confirmarEmail: [null, [FormValidations.equalsTo('email')]],
       endereco: this.formBuilder.group({
         cep: [null, [Validators.required, FormValidations.cepValidator]],
@@ -73,26 +83,46 @@ export class DataFormComponent implements OnInit {
       tecnologias: [null],
       newsletter: [true],
       termos: [null, Validators.pattern('true')],
-      frameworks: this.buildFrameworks()
+      frameworks: this.buildFrameworks(),
     });
+
+    this.formulario
+      .get('endereco.cep')
+      ?.statusChanges.pipe(
+        distinctUntilChanged(),
+        tap((value) => console.log(value)),
+        switchMap((status) =>
+          status === 'VALID'
+            ? this.cepService.consultaCEP(
+                this.formulario.get('endereco.cep')!.value
+              )
+            : EMPTY
+        )
+      )
+      .subscribe({
+        next: (dados) => (dados ? this.populaDadosForm(dados) : {}),
+      });
   }
-  
+
   buildFrameworks(): any {
     const values = this.frameworks.map(() => new FormControl(false));
-    return this.formBuilder.array(values, FormValidations.requiredMinCheckbox())
+    return this.formBuilder.array(
+      values,
+      FormValidations.requiredMinCheckbox()
+    );
   }
 
   onSubmit() {
-    console.log(this.formulario)
-    
+    console.log(this.formulario);
+
     let valueSubmit = Object.assign({}, this.formulario.value);
-    
+
     valueSubmit = Object.assign(valueSubmit, {
       frameworks: valueSubmit.frameworks
-      .map((v: boolean, i:any) => v ? this.frameworks[i] : null)
-      .filter((v: string) => v !== null)
-    })
-    console.log(valueSubmit)
+        .map((v: boolean, i: any) => (v ? this.frameworks[i] : null))
+        .filter((v: string) => v !== null),
+    });
+    console.log(valueSubmit);
 
     if (this.formulario.invalid) {
       this.verificaValidacoesForm(this.formulario);
@@ -194,7 +224,10 @@ export class DataFormComponent implements OnInit {
   }
 
   validarEmail(formControl: FormControl) {
-    return this.verificaEmailService.verificarEmail(formControl.value)
-    .pipe(map((emailExiste) => emailExiste ? {emailInvalido: true} : null));
+    return this.verificaEmailService
+      .verificarEmail(formControl.value)
+      .pipe(
+        map((emailExiste) => (emailExiste ? { emailInvalido: true } : null))
+      );
   }
 }
