@@ -15,6 +15,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
+import { BaseFormComponent } from '../shared/base-form/base-form.component';
 import { FormValidations } from '../shared/form-validations';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { DropdownService } from '../shared/services/dropdown.service';
@@ -25,8 +26,8 @@ import { VerificaEmailService } from './services/verifica-email.service';
   templateUrl: './data-form.component.html',
   styleUrls: ['./data-form.component.scss'],
 })
-export class DataFormComponent implements OnInit {
-  formulario!: FormGroup;
+export class DataFormComponent extends BaseFormComponent implements OnInit {
+  // formulario!: FormGroup;
   estados!: Observable<any>;
   cargos: any[] = [];
   tecnologias: any[] = [];
@@ -44,9 +45,11 @@ export class DataFormComponent implements OnInit {
     private dropDownService: DropdownService,
     private cepService: ConsultaCepService,
     private verificaEmailService: VerificaEmailService
-  ) {}
+  ) {
+    super();
+  }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     // this.verificaEmailService.verificarEmail('email2@email.com').subscribe()
 
     this.estados = this.dropDownService.getEstadosBr();
@@ -112,9 +115,7 @@ export class DataFormComponent implements OnInit {
     );
   }
 
-  onSubmit() {
-    console.log(this.formulario);
-
+  submit() {
     let valueSubmit = Object.assign({}, this.formulario.value);
 
     valueSubmit = Object.assign(valueSubmit, {
@@ -122,66 +123,17 @@ export class DataFormComponent implements OnInit {
         .map((v: boolean, i: any) => (v ? this.frameworks[i] : null))
         .filter((v: string) => v !== null),
     });
+
     console.log(valueSubmit);
-
-    if (this.formulario.invalid) {
-      this.verificaValidacoesForm(this.formulario);
-
-      return;
-    }
 
     this.http
       .post('https://httpbin.org/post', JSON.stringify(valueSubmit))
       .subscribe({
         next: (res) => {
-          console.log('Success', res);
           this.resetar();
         },
         error: (res) => console.log('Failure', res),
       });
-  }
-
-  verificaValidacoesForm(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach((campo) => {
-      const controle = formGroup.get(campo);
-      controle!.markAsDirty();
-
-      if (controle instanceof FormGroup) {
-        this.verificaValidacoesForm(controle);
-      }
-    });
-  }
-
-  resetar() {
-    this.formulario.reset();
-  }
-
-  aplicaCssErro(campo: string) {
-    return {
-      'has-error': this.verificaValidTouched(campo),
-      'has-feedback': this.verificaValidTouched(campo),
-    };
-  }
-
-  verificaValidTouched(campo: string) {
-    return (
-      !this.formulario.get(campo)?.valid &&
-      (this.formulario.get(campo)?.touched || this.formulario.get(campo)?.dirty)
-    );
-  }
-
-  verificaEmailInvalido() {
-    let campoEmail = this.formulario.get('email');
-    if (campoEmail!.errors) {
-      return campoEmail!.errors['email'] && campoEmail!.touched;
-    }
-  }
-
-  verificaRequired(campo: string) {
-    return (
-      !this.formulario.get(campo)?.hasError('reuired') &&
-      (this.formulario.get(campo)?.touched || this.formulario.get(campo)?.dirty)
-    );
   }
 
   consultaCEP() {
