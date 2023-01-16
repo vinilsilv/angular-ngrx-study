@@ -109,7 +109,9 @@
                     <label for="cidade" class="control-label">Cidade</label>
                 </div>
                 <div class="col-sm-12 px-0">
-                    <input type="text" class="form-control" id="cidade" formControlName="cidade">
+                    <select class="form-control" id="cidade" formControlName="cidade">
+                        <option [value]="cidade.nome" *ngFor="let cidade of cidades">{{cidade.nome}}</option>
+                    </select>
                     <app-campo-control-erro [mostrarErro]="verificaValidTouched('endereco.cidade')!"
                         msgErro="Cidade é obrigatório">
                     </app-campo-control-erro>
@@ -122,7 +124,7 @@
                 </div>
                 <div class="col-sm-12 px-0">
                     <select class="form-control" id="estado" formControlName="estado">
-                        <option [value]="estado.sigla" *ngFor="let estado of estados | async">{{estado.nome}}</option>
+                        <option [value]="estado.sigla" *ngFor="let estado of estados">{{estado.nome}}</option>
                     </select>
                     <app-campo-control-erro [mostrarErro]="verificaValidTouched('endereco.estado')!"
                         msgErro="Estado é obrigatório">
