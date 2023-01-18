@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mt-5">
   <div class="row">
     <div class="col-8 offset-md-2">
         <div class="">
@@ -7,13 +7,13 @@
               <input type="text" class="form-control" placeholder="example@mail.com" formControlName="email" />
             </div>
 
-            <div class="input-group">
+            <div class="input-group mt-1">
               <app-show-hide-input>
                 <input #showHide type="password" class="form-control" placeholder="password" formControlName="password" />
               </app-show-hide-input>
             </div>
             <button
-              class="btn-primary btn btn-block"
+              class="btn-primary btn btn-block mt-2"
               [disabled]="!signInForm.valid"
               (click)="submit()"
             >
