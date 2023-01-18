@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row">
+    <div class="col-8 offset-md-2">
+        <div class="">
+          <form [formGroup]="signInForm">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="example@mail.com" formControlName="email" />
+            </div>
+
+            <div class="input-group">
+              <app-show-hide-input>
+                <input #showHide type="password" class="form-control" placeholder="password" formControlName="password" />
+              </app-show-hide-input>
+            </div>
+            <button
+              class="btn-primary btn btn-block"
+              [disabled]="!signInForm.valid"
+              (click)="submit()"
+            >
+              Register
+            </button>
+          </form>
+        </div>
+        <div class="mt-3" *ngIf="showResults">
+          {{signInForm.value | json}}
+        </div>
+    </div>
+  </div>
+</div>
